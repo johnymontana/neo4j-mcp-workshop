@@ -1,0 +1,28 @@
+{
+  "name": "Neo4j MCP Server Environment",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Neo4j MCP Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteEnv": {
+    "NODE_ENV": "development"
+  }
+}
