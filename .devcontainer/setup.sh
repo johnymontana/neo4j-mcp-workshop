@@ -4,8 +4,8 @@ set -e
 
 echo "🚀 Setting up Neo4j MCP Server environment..."
 
-npx --yes @johnymontana/neo4j-mcp --download-only
-
+wget -O neo4j-mcp.tar.gz https://github.com/neo4j/mcp/releases/download/v0.2.0/neo4j-mcp_Linux_x86_64.tar.gz
+tar -xvzf neo4j-mcp.tar.gz
 
 
 echo "✅ Setup complete!"
