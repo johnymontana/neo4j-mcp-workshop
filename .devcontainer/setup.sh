@@ -4,7 +4,7 @@ set -e
 
 echo "🚀 Setting up Neo4j MCP Server environment..."
 
-npx @johnymontana/neo4j-mcp --download-only
+npx --yes @johnymontana/neo4j-mcp --download-only
 
 
 
