@@ -4,9 +4,9 @@ set -e
 
 echo "🚀 Setting up Neo4j MCP Server environment..."
 
-npx @johnymontana/neo4j-mcp
+npx @johnymontana/neo4j-mcp --download-only
 
-chmod +x start-mcp-server.sh
+
 
 echo "✅ Setup complete!"
 echo ""
