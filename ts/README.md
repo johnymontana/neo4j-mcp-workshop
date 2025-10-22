@@ -40,6 +40,13 @@ Run the server in development mode (with hot reload):
 npm run dev
 ```
 
+The server will start on `http://localhost:8000` by default. You can configure the host and port using environment variables:
+
+- `MCP_HOST` (default: `localhost`)
+- `MCP_PORT` (default: `8000`)
+
+The MCP endpoint will be available at: `http://localhost:8000/mcp`
+
 ## Production
 
 Build and run the server:
@@ -60,9 +67,8 @@ npx @modelcontextprotocol/inspector
 
 2. In the inspector interface:
    - Click "Add Server"
-   - Choose "Command" as the transport
-   - Set the command to: `npm run dev` (for development) or `npm start` (for production)
-   - Set the working directory to: `/path/to/your/ts/directory`
+   - Choose "HTTP" as the transport
+   - Set the URL to: `http://localhost:8000/mcp`
    - Click "Connect"
 
 3. Once connected, you can:

@@ -1,11 +1,13 @@
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { driver, Driver, Session } from 'neo4j-driver';
+import { driver, Driver, Session, auth } from 'neo4j-driver';
 import * as dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
 
 // Load environment variables
 dotenv.config();
@@ -59,10 +61,7 @@ class Neo4jMCPServer {
       const username = this.requireEnv('NEO4J_USERNAME');
       const password = this.requireEnv('NEO4J_PASSWORD');
       
-      this.neo4jDriver = driver(uri, {
-        username,
-        password,
-      });
+      this.neo4jDriver = driver(uri, auth.basic(username, password));
     }
     return this.neo4jDriver;
   }
@@ -216,9 +215,48 @@ class Neo4jMCPServer {
   }
 
   async run(): Promise<void> {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-    console.error(`${SERVER_NAME} server running on stdio`);
+    const app = express();
+    const port = parseInt(process.env.MCP_PORT || '8000', 10);
+    const host = process.env.MCP_HOST || 'localhost';
+    
+    // Enable CORS and JSON parsing
+    app.use(cors());
+    app.use(express.json());
+    
+    // Handle MCP requests
+    app.post('/mcp', async (req, res) => {
+      try {
+        const transport = new StreamableHTTPServerTransport({
+          sessionIdGenerator: undefined,
+          enableJsonResponse: true
+        });
+
+        res.on('close', () => {
+          transport.close();
+        });
+
+        await this.server.connect(transport);
+        await transport.handleRequest(req, res, req.body);
+      } catch (error) {
+        console.error('Error handling MCP request:', error);
+        if (!res.headersSent) {
+          res.status(500).json({
+            jsonrpc: '2.0',
+            error: {
+              code: -32603,
+              message: 'Internal server error'
+            },
+            id: null
+          });
+        }
+      }
+    });
+    
+    // Start the Express server
+    app.listen(port, host, () => {
+      console.log(`${SERVER_NAME} server running on http://${host}:${port}`);
+      console.log(`MCP endpoint: http://${host}:${port}/mcp`);
+    });
   }
 
   async close(): Promise<void> {
