@@ -1,6 +1,22 @@
 {
   "name": "Neo4j MCP Server Environment",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:latest",
+  "customizations": {
+    "vscode": {
+      "mcp": {
+        "servers": {
+          "neo4j-database": {
+            "command": "uvx",
+            "args": [
+              "mcp-neo4j-cypher@0.4.1",
+              "--transport",
+              "stdio"
+            ]
+          }
+        }
+      }
+    }
+  },
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
@@ -15,9 +31,11 @@
       ]
     }
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [
+    8000
+  ],
   "portsAttributes": {
-    "3000": {
+    "8000": {
       "label": "Neo4j MCP Server",
       "onAutoForward": "notify"
     }
