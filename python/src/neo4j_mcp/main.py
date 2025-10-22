@@ -6,7 +6,9 @@ from typing import Any, Dict, List
 
 from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
+from mcp.server.models import InitializationOptions
 from neo4j import GraphDatabase, Driver
+import uvicorn
 
 
 SERVER_NAME = "neo4j-mcp-ecommerce"
@@ -103,7 +105,10 @@ def recommend_product(customer_id: str, limit: int = 5) -> List[Dict[str, Any]]:
 
 
 def run() -> None:
-    mcp.run()
+    """Run the MCP server with stdio transport."""
+    print(f"Starting {SERVER_NAME} server on stdio")
+    
+    mcp.run(transport="streamable-http")
 
 
 if __name__ == "__main__":

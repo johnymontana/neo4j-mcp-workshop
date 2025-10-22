@@ -37,21 +37,13 @@ Required environment variables:
 
 ## Run the MCP server
 
-- Via uv script (recommended during development):
+The server runs with stdio transport (standard for MCP servers):
 
 ```bash
 uv run neo4j-mcp-ecommerce
 ```
 
-- As an MCP command in compatible clients (stdio):
-
-Configure your client to launch the server command in this directory, for example:
-
-```bash
-uv run neo4j-mcp-ecommerce
-```
-
-The server communicates over stdio; no network port is opened.
+The server communicates over stdio and can be used with MCP clients like Claude Desktop or the MCP Inspector.
 
 ## Testing with MCP Inspector
 
