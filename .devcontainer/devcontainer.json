@@ -14,7 +14,11 @@
             ]
           }
         }
-      }
+      },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
     }
   },
   "features": {
@@ -23,14 +27,6 @@
     }
   },
   "postCreateCommand": "bash .devcontainer/setup.sh",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode"
-      ]
-    }
-  },
   "forwardPorts": [
     8000
   ],
