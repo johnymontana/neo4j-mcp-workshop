@@ -1,0 +1,29 @@
+{
+  "name": "neo4j-mcp-ecommerce",
+  "version": "0.1.0",
+  "description": "MCP server for an ecommerce store backed by Neo4j",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["mcp", "neo4j", "ecommerce", "typescript"],
+  "author": "Neo4j MCP Workshop",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "neo4j-driver": "^5.22.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
